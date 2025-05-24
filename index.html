@@ -12,7 +12,10 @@
 </head>
 
 <body>
-    <h1>RIS FILE SCREENER</h1>
+    <div class="header">
+        <h2>RIS (RIZZ) FILE SCREENER</h1>
+    </div>
+
     <p>Quick Screener!</p>
 
     <!-- File input for uploading .ris file -->
@@ -38,7 +41,18 @@
     
     <input type="file" id="risFileInput" accept=".ris">
 
-    <!-- Edit learning -->
-
+    <!-- <pre> (preformatted) preserves space, line breaks and indentation -->
+    <!-- apparently this shows the parsed RIS date formatted as JSON -->
+    <!-- JSON is not file or a code
+        it is a simple format used to store and transport data
+        plain text format - easy for data interchange between languages
+        used to send data between web applications and servers
+        !! JavaScript Object Notation !!    
+    -->
+    <!-- JSON has line breaks, indentation and spaces
+        would mess up formatting if used <div> or <p>
+    -->
+    <pre id="output">
+    </pre>
 
 </body>
