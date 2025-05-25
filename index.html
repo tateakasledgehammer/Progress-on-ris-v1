@@ -3,7 +3,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="risfile.js"></script>
 
     <!-- the font that I like -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +15,9 @@
         <h2>RIS (RIZZ) FILE SCREENER</h1>
     </div>
 
-    <p>Quick Screener!</p>
+    <div class="screener">
+
+    <p>Import your .ris file</p>
 
     <!-- File input for uploading .ris file -->
     <!-- type="file" lets the user seledct files from their devices-->
@@ -52,7 +53,34 @@
     <!-- JSON has line breaks, indentation and spaces
         would mess up formatting if used <div> or <p>
     -->
-    <pre id="output">
-    </pre>
+    
+    
+    <!-- previously had this pre but that just blurted it out -->
+    
+    <!-- 
+    <pre id="output"></pre> 
+    -->
+
+    <table id="risTable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Year</th>
+                <th>Journal</th>
+                <th>DOI</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- this is where the rows go -->
+        </tbody>
+    </table>
+
+
+
+    </div>
+
+    <script src="risfile.js"></script>
 
 </body>

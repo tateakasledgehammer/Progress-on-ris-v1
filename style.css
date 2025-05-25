@@ -1,11 +1,12 @@
 * {
     font-family: "Poppins", sans-serif;
+    margin: 0;
 }
 
 .header {
     display: flex;
     align-items: center;
-    padding: 20px 80px;
+    padding: 20px;
     z-index: 999;
     position: sticky;
     top: 0;
@@ -16,4 +17,36 @@
 
     background-color: rgb(29, 29, 116);
     color: #fff;
+}
+
+.screener {
+    padding: 20px 40px;
+}
+
+#risTable {
+    table-layout: fixed;
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+thead th:nth-child(1) {
+    width: 30%;
+}
+
+th, 
+td {
+    padding: 20px;
+}
+
+th {
+    text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #c7c7c7;
+}
+  
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
