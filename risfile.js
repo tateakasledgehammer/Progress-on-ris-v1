@@ -112,8 +112,8 @@ function renderTable(records) {
 
     // get common fields to put in for each of the columns we like
     // the || '' makes a fallback to empty string
-    const title = (entry.TI && entry.TI[0]) || 'N/A';
-    const year = (entry.PY && entry.PY[0]) || 'N/A'; // having entry.PY & entry.PY[0] means it works regardless of how it has been formatted ['2024'] or another way
+    const title = (entry.TI && entry.TI[0] || 'N/A');
+    const year = (entry.PY && entry.PY[0] || 'N/A'); // having entry.PY & entry.PY[0] means it works regardless of how it has been formatted ['2024'] or another way
     const type = (entry.M3 && entry.M3[0] || 'N/A')
 
     const authors = entry.AU 
@@ -159,6 +159,7 @@ function renderTable(records) {
     const journal = (entry.T2 && entry.T2[0] || 'N/A');
     const volume = (entry.VL && entry.VL[0] || '');
     const issue = (entry.IS && entry.IS[0] || '');
+    
 
     const abstract = (entry.AB && entry.AB[0] || 'N/A');
     
@@ -166,8 +167,30 @@ function renderTable(records) {
         ? entry.KW.join(', ')
         : 'N/A';
 
-    const language = (entry.LA && entry.LA[0] || 'N/A'
-    )
+    const language = (entry.LA && entry.LA[0] || 'N/A');
+
+    const cardHTML = `
+    <div class="study-card">
+        <h3>${entry.ID || 'Study'}</h3>
+        <h4>${title}</h4>
+        <p class="authors">Authors: ${authors}</p>
+        <p class="year">Year: ${year}</p>
+        <p class="type">Type: ${type}</p>
+        <p class="journal">Journal: ${journal}</p>
+        <p class="doi">${doi 
+            ? `<a href="https://doi.org/${doi}" target="_blank" rel="noopener noreferrer">${doi}</a>` // target="_blank" = OPENS IN NEW WINDOW!!
+            : 'N/A'}
+        </p>
+        <div>
+            <p class="keywords">Keywords: ${keywords}</p>
+        </div>
+        <div>
+            <p class="abstract">${abstract}</p>
+        </div>  
+    </div>
+    `;
+
+    document.getElementById('output').insertAdjacentHTML('beforeend',cardHTML);
     
     row.innerHTML = `
         <td>${title}</td>
