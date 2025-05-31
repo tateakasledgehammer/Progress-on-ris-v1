@@ -1,6 +1,18 @@
-* {
-    font-family: "Poppins", sans-serif;
+/* RESET & BASE */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+html,
+body {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .header {
@@ -11,22 +23,64 @@
     position: sticky;
     top: 0;
     left: 0;
-
-    max-width: 100%;
-    height: 10px;
-
     background-color: rgb(29, 29, 116);
     color: #fff;
 }
 
 .body {
-    padding: 20px 40px;
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
 }
 
+
+/* TOGGLE */
+.toggle-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.toggle {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
+.toggle button {
+    border: 2px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition:  background-color 0.2s, border-color 0.2s;
+    border-radius: 5px;
+}
+
+.toggle button:hover {
+    background-color: #f0f0f0;
+}
+
+.toggle button.active {
+    border-color: black;
+    background-color: #e0e0e0;
+}
+
+
+/* STUDY CARD */
+
 .study-card {
-    margin-top: 20px;
+    margin: 20px auto;
     padding: 10px 20px;
     border: 1px solid black;
+    border-radius: 5px;
 }
 
 .keywords,
@@ -34,6 +88,48 @@
     padding: 10px 0px;
 }
 
-.result-response i {
-    color: black;
+/* ACTIONS */
+.actions {
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px 0;
+}
+
+.actions button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
+}
+
+.accept-btn {
+    background-color: #4CAF50;
+}
+
+.reject-btn {
+    background-color: #f44446;
+}
+
+.revert-btn {
+    background-color: black;
+}
+
+
+.note-section, 
+.tag-section {
+    margin-top: 10px;
+}
+
+.note-input, 
+.tag-input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    box-sizing: border-box;
 }

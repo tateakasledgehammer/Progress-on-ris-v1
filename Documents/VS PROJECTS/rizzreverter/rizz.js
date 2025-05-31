@@ -14,13 +14,14 @@ document.getElementById('risFileInput').addEventListener('change', function(even
     // defines what happens once the file is read (get text > parse into records > puts into 'renderResults' to display)
     reader.onload = function(e) {
         const content = e.target.result;
-        const records = parseRIS(content);         
-        renderResults(records);
+        parseRIS(content);         
     };
 
     // starts reading the file as text
     reader.readAsText(file); 
 });
+
+let studies = []; // global array
 
 // puts RIS text into JS objects
 function parseRIS(text) {
@@ -44,6 +45,7 @@ function parseRIS(text) {
     if (tag === 'TY') {
         entry = { TY: value }; 
     }  else if (tag === 'ER') {
+        entry.status = 'unscreened';
         records.push(entry);
         entry = {};
     } else {
@@ -55,7 +57,15 @@ function parseRIS(text) {
     }  
 
     // return the final list of parsed entries
+    studies = records;
+    renderFilteredStudies('unscreened'); // filters and displays studies with unscreened status
     return records;
+}
+
+// Function to filter studies by status
+function renderFilteredStudies(status) {
+    const filtered = studies.filter(study => study.status === status);
+    renderResults(filtered);
 }
 
 // renders the results into HTML
@@ -65,7 +75,7 @@ function renderResults(records) {
     outputDiv.innerHTML = '';
 
     // forEach loops through ecords, then gets details
-    records.forEach(entry => {
+    records.forEach((entry, index) => {
         const title = (entry.TI && entry.TI[0] || 'N/A');
         const year = (entry.PY && entry.PY[0] || 'N/A'); // having entry.PY & entry.PY[0] means it works regardless of how it has been formatted ['2024'] or another way
         const type = (entry.M3 && entry.M3[0] || 'N/A')
@@ -86,6 +96,7 @@ function renderResults(records) {
                 <p class="authors"><strong>Authors: </strong>${authors}</p>
                 <p class="year"><strong>Year: </strong>${year}</p>
                 <p class="type"><strong>Type: </strong>${type}</p>
+                <p class="language"><strong>Language: </strong>${language}</p>
                 <p class="journal"><strong>Journal: </strong>${journal}</p>
                 <p class="doi"><strong>DOI: </strong>${doi 
                     ? `<a href="https://doi.org/${doi}" target="_blank" rel="noopener noreferrer">${doi}</a>` // target="_blank" = OPENS IN NEW WINDOW!!
@@ -97,8 +108,41 @@ function renderResults(records) {
                 <div>
                     <p class="abstract"><strong>Abstract: </strong>${abstract}</p>
                 </div>  
+
+            <!-- Action buttons -->
+                <div class="actions">
+                    <button class="accept-btn" onclick="updateStatus(${index}, 'accepted')">ACCEPT</button>
+                    <button class="reject-btn" onclick="updateStatus(${index}, 'rejected')">REJECT</button>
+                    <button class="revert-btn" onclick="updateStatus(${index}, 'unscreened')">REVERT</button>
+                    <div class="note-section">
+                        <label>Add Note:</label>
+                        <textarea class="note-input" placeholder="Enter your note here..."></textarea>
+                    </div>
+                    <div class="tag-section">
+                        <label>Assign Tag:</label>
+                        <input type="text" class="tag-input" placeholder="Enter tag...">
+                    </div>
+                 </div>
             </div>
             `;
 
         // insert constructed HTML card into the output container
-        outputDiv.insertAdjacentHTML('beforeend',cardHTML)})};
+        outputDiv.insertAdjacentHTML('beforeend',cardHTML)})
+};
+
+// Update status function
+function updateStatus(index, newStatus) {
+    studies[index].status = newStatus;
+    renderFilteredStudies(newStatus === 'unscreened'
+        ? 'unscreened'
+        : newStatus);
+}
+
+const toggleButtons = document.querySelectorAll('.toggle button');
+
+toggleButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        toggleButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    })
+})
