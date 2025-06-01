@@ -23,6 +23,26 @@ document.getElementById('risFileInput').addEventListener('change', function(even
 
 let studies = []; // global array
 
+window.onload = () => {
+    const savedStudies = localStorage.getItem('studies');
+    const savedStatus = localStorage.getItem('activeStatus') || 'unscreened';
+
+    if (savedStudies) {
+        studies = JSON.parse(savedStudies);
+    }
+
+    // set active button
+    toggleButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.status === savedStatus) {
+            btn.classList.add('active');
+        }
+    })
+
+    renderFilteredStudies(savedStatus);
+    updateToggleCounts();
+};
+
 // puts RIS text into JS objects
 function parseRIS(text) {
     // breaks it down
@@ -58,9 +78,14 @@ function parseRIS(text) {
 
     // return the final list of parsed entries
     studies = records;
-    renderFilteredStudies('unscreened'); // filters and displays studies with unscreened status
+    localStorage.setItem('studies', JSON.stringify(studies)); // saves to local storage
+
+    // load saved status or default to last
+    const activeStatus = localStorage.getItem('activeStatus') || 'unscreened';
+
+    renderFilteredStudies(activeStatus);
     updateToggleCounts();
-}
+};
 
 // Function to filter studies by status
 function renderFilteredStudies(status) {
@@ -68,7 +93,7 @@ function renderFilteredStudies(status) {
         .map((study, i) => ({ ...study, index: i }))
         .filter(study => study.status === status);
     renderResults(filtered);
-}
+};
 
 // renders the results into HTML
 function renderResults(records) {
@@ -174,13 +199,16 @@ function renderResults(records) {
 // Update status function
 function updateStatus(index, newStatus) {
     studies[index].status = newStatus;
+    localStorage.setItem('studies', JSON.stringify(studies)); // saves to local storage
 
     const activeBtn = document.querySelector('.toggle button.active'); //finds the toggle button that has the active class (what matches)
-    const activeStatus = activeBtn?.dataset.status || 'unscreened'; // defaults to unscreened
+    const activeStatus = activeBtn?.dataset.status || 'unscreened'; // defaults to unscreened if null
+
+    localStorage.setItem('activeStatus', activeStatus) // saves what status we are in;
 
     renderFilteredStudies(activeStatus); // re-renders the screen to only show those that match (gets rid of it once selected)
     updateToggleCounts(); // updates the subheader
-}
+};
 
 // Button toggles (Unscreened, Accepted, Rejected)
 const toggleButtons = document.querySelectorAll('.toggle button');
@@ -189,6 +217,9 @@ toggleButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         toggleButtons.forEach(b => b.classList.remove('active')); // removes active when a decision is made 'clicked'
         btn.classList.add('active'); // gives the one that was clicked active status
+
+        localStorage.setItem('activeStatus', btn.dataset.status);
+
         renderFilteredStudies(btn.dataset.status); // shows the studies in that list with that status, as set previously
     })
 });
@@ -209,5 +240,4 @@ function updateToggleCounts() {
     function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
-}
-
+};
