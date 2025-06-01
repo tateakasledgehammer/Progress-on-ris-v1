@@ -99,7 +99,7 @@ function renderResults(records) {
         // define the HTML block for this entry
         card.innerHTML = `
             <h4>${title}</h4>
-            <h5>${index}</h5>
+            <p><strong>Study Index: </strong>${index}</p>
             <p class="authors"><strong>Authors: </strong>${authors}</p>
             <p class="year"><strong>Year: </strong>${year}</p>
             <p class="type"><strong>Type: </strong>${type}</p>
@@ -121,7 +121,11 @@ function renderResults(records) {
         acceptBtn.textContent = 'ACCEPT';
         acceptBtn.classList.add('accept-btn');
         acceptBtn.onclick = () => updateStatus(index, 'accepted');
+                // when there is a click:
+                // runs updateStatus function
+                // sets status as 'accepted' for the index of the study
         actions.appendChild(acceptBtn);
+                // adds acceptBtn to the actions div (made in the bit above this)
 
         // Reject button
         const rejectBtn = document.createElement('button');
@@ -131,7 +135,7 @@ function renderResults(records) {
         actions.appendChild(rejectBtn);
 
         // Revert button
-        if (entry.status !== 'unscreened') {
+        if (entry.status !== 'unscreened') { // only appears once something has been decided
             const revertBtn = document.createElement('button');
             revertBtn.textContent = 'REVERT';
             revertBtn.classList.add('revert-btn');
@@ -161,6 +165,7 @@ function renderResults(records) {
         };
         actions.appendChild(tagInput);
 
+        // card is where we put all the study information, so we adding the buttons for each study here by appending
         card.appendChild(actions);
         // insert constructed HTML card into the output container
         outputDiv.appendChild(card);
@@ -170,11 +175,11 @@ function renderResults(records) {
 function updateStatus(index, newStatus) {
     studies[index].status = newStatus;
 
-    const activeBtn = document.querySelector('.toggle button.active');
-    const activeStatus = activeBtn?.dataset.status || 'unscreened';
+    const activeBtn = document.querySelector('.toggle button.active'); //finds the toggle button that has the active class (what matches)
+    const activeStatus = activeBtn?.dataset.status || 'unscreened'; // defaults to unscreened
 
-    renderFilteredStudies(activeStatus);
-    updateToggleCounts();
+    renderFilteredStudies(activeStatus); // re-renders the screen to only show those that match (gets rid of it once selected)
+    updateToggleCounts(); // updates the subheader
 }
 
 // Button toggles (Unscreened, Accepted, Rejected)
@@ -182,9 +187,9 @@ const toggleButtons = document.querySelectorAll('.toggle button');
 
 toggleButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        toggleButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderFilteredStudies(btn.dataset.status);
+        toggleButtons.forEach(b => b.classList.remove('active')); // removes active when a decision is made 'clicked'
+        btn.classList.add('active'); // gives the one that was clicked active status
+        renderFilteredStudies(btn.dataset.status); // shows the studies in that list with that status, as set previously
     })
 });
 
@@ -200,8 +205,9 @@ function updateToggleCounts() {
         const status = btn.dataset.status;
         btn.textContent = `${capitalize(status)} (${counts[status]})`;
     });
+
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 }
 
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
