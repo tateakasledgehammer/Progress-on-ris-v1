@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <title> RIS File Screener</title>
 
     <!-- the font that I like -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,23 +25,12 @@
         <input type="file" id="risFileInput" accept=".ris">
         <div class="toggle-container">
             <div class="toggle">
-                <button onclick="renderFilteredStudies('unscreened')">Unscreened</button>
-                <button onclick="renderFilteredStudies('accepted')">Accepted</button>
-                <button onclick="renderFilteredStudies('rejected')">Rejected</button>
+                <button data-status="unscreened" class="active">Unscreened</button>
+                <button data-status="accepted">Accepted</button>
+                <button data-status="rejected">Rejected</button>
             </div>    
           </div>
         <div id="output"></div>
-    </div>
-
-
-
-    <!-- for next time -->
-    <div class="action-board" style="display: none;">
-        <i class="fa-solid fa-bars-progress"></i><h6>Generate AI Review</h6>
-        <i class="fa-solid fa-check"></i><h6>Accept</h6>
-        <i class="fa-solid fa-xmark"></i><h6>Reject</h6>
-        <i class="fa-solid fa-note-sticky"></i><h6>Add a note</h6>
-        <i class="fa-solid fa-tags"></i><h6>Assign a tag</h6>
     </div>
 
     <script src="rizz.js"></script>
