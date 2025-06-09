@@ -14,8 +14,25 @@ document.getElementById('risFileInput').addEventListener('change', function(even
     // defines what happens once the file is read (get text > parse into records > puts into 'renderResults' to display)
     reader.onload = function(e) {
         const content = e.target.result;
-        parseRIS(content);
-        document.getElementById('uploadStatus').textContent = 'File uploaded!';         
+        const studies = parseRIS(content);
+
+        // existing studies
+        const existingStudies = JSON.parse(localStorage.getItem('studies') || '[]');
+
+        // combine the studies
+        const combinedStudies = existingStudies.concat(studies);
+
+        // save back to local storage
+        localStorage.setItem('studies', JSON.stringify(combinedStudies));
+
+        // add this upload to upload history
+        addUploadRecord(file.name, studies.length);
+
+        // show success message
+        document.getElementById('uploadStatus').textContent = 'File uploaded!';       
+        
+        // refresh upload history to display in list
+        renderUploadHistory();
     };
 
     // starts reading the file as text
@@ -56,5 +73,39 @@ function parseRIS(text) {
         }
     }  
 
-    localStorage.setItem('studies', JSON.stringify(records));
+    return records;
+};
+
+function addUploadRecord(filename, studyCount) {
+    const history = JSON.parse(localStorage.getItem('uploadHistory') || '[]');
+    const timestamp = new Date().toLocaleString(); // format
+
+    history.push({
+        timestamp,
+        filename,
+        studyCount
+    });
+
+    localStorage.setItem('uploadHistory', JSON.stringify(history));
+}
+
+function renderUploadHistory() {
+    const historyList = document.getElementById('uploadHistoryList');
+    historyList.innerHTML = '';
+
+    const history = JSON.parse(localStorage.getItem('uploadHistory') || '[]');
+    if (history.length === 0) {
+        historyList.innerHTML = `<li>No uploads yet.</li>`;
+        return;
+    }
+    
+    history.forEach((upload, i) => {
+        const li = document.createElement('li');
+        li.textContent = `${upload.timestamp} - ${upload.filename} - ${upload.studyCount} studies`;
+        historyList.appendChild(li);
+    });
+}
+
+window.onload = function() {
+    renderUploadHistory();
 };
