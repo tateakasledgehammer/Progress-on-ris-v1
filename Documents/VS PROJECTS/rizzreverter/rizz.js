@@ -124,6 +124,7 @@ function renderResults(records) {
         // define the HTML block for this entry
         card.innerHTML = `
             <h4>${title}</h4>
+            <div class="sub-information">
             <p><strong>Study Index: </strong>${index}</p>
             <p class="authors"><strong>Authors: </strong>${authors}</p>
             <p class="year"><strong>Year: </strong>${year}</p>
@@ -134,6 +135,7 @@ function renderResults(records) {
                 ? `<a href="https://doi.org/${doi}" target="_blank" rel="noopener noreferrer">${doi}</a>` // target="_blank" = OPENS IN NEW WINDOW!!
                 : 'N/A'}
             </p>
+            </div>
             <p class="keywords"><strong>Keywords: </strong>${keywords}</p>
             <p class="abstract"><strong>Abstract: </strong>${abstract}</p>
         `;

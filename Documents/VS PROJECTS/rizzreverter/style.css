@@ -7,6 +7,12 @@
     font-family: "Poppins", sans-serif;
 }
 
+:root {
+    --clr-blue: rgb(29, 29, 116);
+}
+
+/* GENERAL STYLING */
+
 html,
 body {
     max-width: 100%;
@@ -23,7 +29,7 @@ body {
     position: sticky;
     top: 0;
     left: 0;
-    background-color: rgb(29, 29, 116);
+    background-color: var(--clr-blue);
     color: #fff;
 }
 
@@ -33,15 +39,79 @@ body {
     max-width: 100%;
 }
 
+/* NAVBAR */
+
+#navbar {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 0;
+    margin: 5px;
+}
+
+#navbar li {
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+}
+
+#navbar li a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+    transition: 0.2s ease;
+}
+
+#navbar li a.active {
+    padding: 5px;
+    border: 2px solid var(--clr-blue);
+    border-radius: 5px 10px;
+    font-weight: 600;
+}
+
+#navbar li a:hover {
+    background-color: lightgray;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+/* INDEX.HTML */
+
+.stages div {
+    background-color: lightgrey;
+    margin: 30px 40px;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.stages a {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* IMPORT.HTML */
+
+
+
+/* SETUP.HTML */
+
+
+/* SCREENING.HTML */
 
 /* TOGGLE */
 .toggle-container {
     width: 100%;
     display: flex;
     justify-content: center;
+    /*
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 10px;
+    */
     overflow-x: auto;
 }
 
@@ -49,7 +119,9 @@ body {
     display: flex;
     justify-content: center;
     gap: 20px;
+    /*
     padding: 10px 0;
+    */
     max-width: 100%;
     flex-wrap: wrap;
 }
@@ -59,7 +131,7 @@ body {
     background-color: transparent;
     cursor: pointer;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 14px;
     transition:  background-color 0.2s, border-color 0.2s;
     border-radius: 5px;
 }
@@ -73,19 +145,32 @@ body {
     background-color: #e0e0e0;
 }
 
-
 /* STUDY CARD */
-
 .study-card {
     margin: 20px auto;
     padding: 10px 20px;
     border: 1px solid black;
     border-radius: 5px;
+    width: 70%;
 }
 
 .keywords,
 .abstract {
-    padding: 10px 0px;
+    padding: 5px 0px;
+}
+
+#output h1 {
+    font-size: 16px;
+}
+
+#output p {
+    font-size: 12px;
+}
+
+.sub-information {
+    columns: 3;
+    column-gap: 20px;
+    column-rule: 1px solid #ccc;
 }
 
 /* ACTIONS */
@@ -93,7 +178,7 @@ body {
     margin-top: 20px;
     border-top: 1px solid #ddd;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     padding: 10px 10px 0;
 }
@@ -120,7 +205,6 @@ body {
     background-color: black;
 }
 
-
 .note-section, 
 .tag-section {
     margin-top: 10px;
@@ -132,4 +216,5 @@ body {
     padding: 5px;
     margin-top: 5px;
     box-sizing: border-box;
+    font-size: 12px;
 }
