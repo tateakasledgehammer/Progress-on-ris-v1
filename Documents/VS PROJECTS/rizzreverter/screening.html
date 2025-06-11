@@ -37,9 +37,28 @@
                 <button data-status="unscreened" class="active">Unscreened</button>
                 <button data-status="accepted">Accepted</button>
                 <button data-status="rejected">Rejected</button>
-            </div>    
-          </div>
+            </div> 
+            <label for="itemsPerPage">Show per page:</label>
+            <select id="itemsPerPage">
+                <option value="25" selected>25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            <div class="sort-container">
+                <label for="sortBy">Sort by:</label>
+                <select id="sortBy">
+                    <option value="year_asc">Year (Oldest First)</option>
+                    <option value="year_des">Year (Newest First)</option>
+                    <option value="title_asc">Title (A - Z)</option>
+                    <option value="title_des">Title (Z - A)</option>
+                    <option value="author_asc">Author (A - Z)</option>
+                    <option value="author_des">Author (Z - A)</option>
+                </select>
+            </div>
+        </div>
         <div id="output"></div>
+
+        <button id="loadMoreBtn">Load More</button>
     </div>
 
     <script src="screening.js"></script>

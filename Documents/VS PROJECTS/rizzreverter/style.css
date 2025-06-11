@@ -126,10 +126,14 @@ body {
     flex-wrap: wrap;
 }
 
-.toggle button {
+.toggle-container button {
+    cursor: pointer;
+}
+
+.toggle-container button,
+.toggle-container label {
     border: 2px solid transparent;
     background-color: transparent;
-    cursor: pointer;
     padding: 10px 20px;
     font-size: 14px;
     transition:  background-color 0.2s, border-color 0.2s;
@@ -143,6 +147,11 @@ body {
 .toggle button.active {
     border-color: black;
     background-color: #e0e0e0;
+}
+
+.toggle-container select {
+    width: 60px;
+    text-align: center;
 }
 
 /* STUDY CARD */

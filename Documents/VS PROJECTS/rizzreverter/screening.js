@@ -1,4 +1,7 @@
 let studies = []; // global array
+let currentPage = 1;
+let itemsPerPage = 25;
+let sortBy = 'title_des';
 
 window.onload = () => {
     const savedStudies = localStorage.getItem('studies');
@@ -8,13 +11,26 @@ window.onload = () => {
         studies = JSON.parse(savedStudies);
     }
 
-    // set active button
+    // dropdown handler
+    document.getElementById('itemsPerPage').addEventListener('change', (e) => {
+        itemsPerPage = parseInt(e.target.value, 10);
+        currentPage = 1;
+        renderFilteredStudies(savedStatus);
+    });
+
+    // load more button handler
+    document.getElementById('loadMoreBtn').addEventListener('click', () => {
+        currentPage++;
+        renderFilteredStudies(savedStatus);
+    });
+
+    // set active button handler
     toggleButtons.forEach(btn => {
         btn.classList.remove('active');
         if (btn.dataset.status === savedStatus) {
             btn.classList.add('active');
         }
-    })
+    });
 
     renderFilteredStudies(savedStatus);
     updateToggleCounts();
@@ -25,7 +41,17 @@ function renderFilteredStudies(status) {
     const filtered = studies
         .map((study, i) => ({ ...study, index: i }))
         .filter(study => study.status === status);
-    renderResults(filtered);
+
+    const paginated = filtered.slice(0, currentPage * itemsPerPage);
+    
+    renderResults(paginated);
+
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    if (currentPage * itemsPerPage >= filtered.length) {
+        loadMoreBtn.style.display = 'none';
+    } else {
+        loadMoreBtn.style.display = 'block';
+    }
 };
 
 // renders the results into HTML
@@ -141,6 +167,7 @@ function updateStatus(index, newStatus) {
 
     localStorage.setItem('activeStatus', activeStatus) // saves what status we are in;
 
+    currentPage = 1;
     renderFilteredStudies(activeStatus); // re-renders the screen to only show those that match (gets rid of it once selected)
     updateToggleCounts(); // updates the subheader
 };
