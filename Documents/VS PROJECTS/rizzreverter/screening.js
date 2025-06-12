@@ -134,7 +134,7 @@ function renderResults(records) {
             </div>
             <p class="keywords"><strong>Keywords: </strong>${keywords}</p>
             <p class="abstract"><strong>Abstract: </strong>${abstract}</p>
-        `;
+            `;
 
         const actions = document.createElement('div');
         actions.classList.add('actions');
@@ -178,14 +178,28 @@ function renderResults(records) {
         actions.appendChild(noteInput);
         
         // Tag saving
-        const tagInput = document.createElement('textarea');
+        const tagInput = document.createElement('select');
         tagInput.className = 'tag-input';
-        tagInput.label = 'Select tag:'
-        tagInput.placeholder = 'Enter tag...';
-        tagInput.value = entry.tag || '';
-        tagInput.oninput = () => {
+
+        const globalTags = JSON.parse(localStorage.getItem('globalTags')) || [];
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select a tag';
+        tagInput.appendChild(defaultOption);
+
+        globalTags.forEach(tag => {
+            const option = document.createElement('option');
+            option.value = tag;
+            option.textContent = tag;
+            if (entry.tag === tag) option.selected = true;
+            tagInput.appendChild(option);
+        });
+
+        tagInput.onchange = () => {
             studies[index].tag = tagInput.value;
-        };
+            localStorage.setItem('studies', JSON.stringify(studies));
+        }
         actions.appendChild(tagInput);
 
         // card is where we put all the study information, so we adding the buttons for each study here by appending

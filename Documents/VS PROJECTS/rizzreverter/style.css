@@ -245,3 +245,19 @@ body {
     box-sizing: border-box;
     font-size: 12px;
 }
+
+/* SETUP.HTML */
+/* Remove button */
+.remove-tag-btn {
+    background-color: transparent;
+    border: none;
+    color: #e74c3c;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 4px 8px;
+}
+
+.remove-tag-btn:hover {
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
