@@ -24,6 +24,9 @@ window.onload = () => {
         renderFilteredStudies(savedStatus);
     });
 
+    // having the right sort by order
+    sortBy = localStorage.getItem('sortBy') || 'title_des';
+
     // set active button handler
     toggleButtons.forEach(btn => {
         btn.classList.remove('active');
@@ -36,11 +39,45 @@ window.onload = () => {
     updateToggleCounts();
 };
 
+// Sorting studies
+document.getElementById('sortBy').addEventListener('change', (e) => {
+    sortBy = e.target.value;
+    localStorage.setItem('sortBy', sortBy); // keeps it when reloading
+    currentPage = 1;
+    const activeStatus = localStorage.getItem('activeStatus') || 'unscreened';
+    renderFilteredStudies(activeStatus);
+});
+
+function sortStudies(studies, sortBy) {
+    return [...studies].sort((a, b) => {
+        switch (sortBy) {
+            case 'year_asc':
+                return (a.PY?.[0] || 0) - (b.PY?.[0] || 0);
+            case 'year_des':
+                return (b.PY?.[0] || 0) - (a.PY?.[0] || 0);
+            case 'title_asc':
+                return (a.TI?.[0] || '').localeCompare(b.TI?.[0] || 0);
+            case 'title_des':
+                return (b.TI?.[0] || '').localeCompare(a.TI?.[0] || 0);
+            case 'author_asc':
+                return (a.AU?.[0] || '').localeCompare(b.AU?.[0] || 0);
+            case 'author_des':
+                return (b.AU?.[0] || '').localeCompare(a.AU?.[0] || 0);
+            case 'index_asc':
+                return a.index - b.index;
+            default:
+                return 0;
+        }
+    });
+}
+
 // Function to filter studies by status
 function renderFilteredStudies(status) {
-    const filtered = studies
+    let filtered = studies
         .map((study, i) => ({ ...study, index: i }))
         .filter(study => study.status === status);
+
+    filtered = sortStudies(filtered, sortBy);
 
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
     

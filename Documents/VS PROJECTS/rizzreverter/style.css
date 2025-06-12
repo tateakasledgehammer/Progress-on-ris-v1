@@ -103,35 +103,42 @@ body {
 /* SCREENING.HTML */
 
 /* TOGGLE */
+
 .toggle-container {
     width: 100%;
     display: flex;
     justify-content: center;
-    /*
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 10px;
-    */
     overflow-x: auto;
 }
 
-.toggle {
+.toggle,
+.per-page-container,
+.sort-container {
     display: flex;
     justify-content: center;
     gap: 20px;
-    /*
     padding: 10px 0;
-    */
     max-width: 100%;
     flex-wrap: wrap;
 }
 
-.toggle-container button {
+.per-page-container,
+.sort-container {
+    gap: 2px;
+}
+
+.toggle-container button,
+.toggle-container select {
     cursor: pointer;
 }
 
 .toggle-container button,
-.toggle-container label {
+.toggle-container label,
+.sort-container label,
+.sort-container select {
     border: 2px solid transparent;
     background-color: transparent;
     padding: 10px 20px;
@@ -152,7 +159,18 @@ body {
 .toggle-container select {
     width: 60px;
     text-align: center;
+    border: solid 1px black;
+    border-radius: 5px;
 }
+
+.sort-container select {
+    width: 240px;
+    text-align: left;
+    border: solid 1px black;
+    border-radius: 5px;
+}
+
+/* Other sorting functions */
 
 /* STUDY CARD */
 .study-card {
