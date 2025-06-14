@@ -99,6 +99,16 @@ body {
 
 /* SETUP.HTML */
 
+.define-tags {
+    margin-bottom: 30px;
+    border-bottom: 1px solid black;
+}
+
+.tag-container,
+.inclusion-container,
+.exclusion-container {
+    padding: 10px 0 40px 10px;
+}
 
 /* SCREENING.HTML */
 

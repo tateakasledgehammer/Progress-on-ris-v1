@@ -1,3 +1,4 @@
+/* ADD TAGS */
 let tags = JSON.parse(localStorage.getItem('globalTags')) || [];
 
 function updateTagListUI() {
@@ -35,3 +36,28 @@ document.getElementById('addTagBtn').addEventListener('click', () => {
 });
 
 updateTagListUI();
+
+/* ADD INCLUSION CRITERIA */
+let includedTerms = JSON.parse(localStorage.getItem('globalInclusion')) || [];
+
+function updateIncludedList() {
+    const list_included = document.getElementById('includedList');
+    list_included.innerHTML = '';
+
+    includedTerms.forEach((includedTerm, index) => {
+        const li = document.createElement('li');
+        li.textContent = includedTerm;
+
+        list_included.appendChild(li);
+    });
+};
+
+document.getElementById('addIncludedBtn').addEventListener('click', () => {
+    const newInclusion = document.getElementById('newIncludedInput').value.trim();
+    if (newInclusion && !includedTerms.includes(newInclusion)) {
+        includedTerms.push(newInclusion);
+        localStorage.setItem('globalInclusion', JSON.stringify(includedTerms));
+        updateIncludedList();
+    }
+    document.getElementById('newIncludedInput').value = '';
+})
