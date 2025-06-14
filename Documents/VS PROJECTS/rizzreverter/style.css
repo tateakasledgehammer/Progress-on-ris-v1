@@ -200,6 +200,19 @@ body {
     column-rule: 1px solid #ccc;
 }
 
+/* KEYWORDS & ABSTRACT DROP DOWN */
+.dropdown-button {
+    margin-top: 10px;
+    background-color: transparent;
+    border: none;
+}
+
+.dropdown-button:hover {
+    background-color: #eaeaea;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 /* ACTIONS */
 .actions {
     margin-top: 20px;

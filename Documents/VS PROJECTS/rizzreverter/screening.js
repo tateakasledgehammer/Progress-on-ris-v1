@@ -132,9 +132,28 @@ function renderResults(records) {
                 : 'N/A'}
             </p>
             </div>
+            `;
+
+        const expandable = document.createElement('div');
+        expandable.classList.add('expandable');
+        expandable.style.display = 'none';
+        expandable.innerHTML = `
             <p class="keywords"><strong>Keywords: </strong>${keywords}</p>
             <p class="abstract"><strong>Abstract: </strong>${abstract}</p>
-            `;
+        `;
+
+        const dropdownButton = document.createElement('button');
+        dropdownButton.textContent = '▼ Show Keywords & Abstract';
+        dropdownButton.classList.add('dropdown-button');
+
+        dropdownButton.addEventListener('click', () => {
+            const isHidden = expandable.style.display === 'none';
+            expandable.style.display = isHidden ? 'block' : 'none';
+            dropdownButton.textContent = isHidden ? '▲ Hide Details' : '▼ Show Keywords & Abstract';
+        });
+
+        card.appendChild(dropdownButton);
+        card.append(expandable);
 
         const actions = document.createElement('div');
         actions.classList.add('actions');
@@ -164,7 +183,7 @@ function renderResults(records) {
             revertBtn.classList.add('revert-btn');
             revertBtn.onclick = () => updateStatus(index, 'unscreened');
             actions.appendChild(revertBtn);
-        }
+        };
                
         // Note saving
         const noteInput = document.createElement('textarea');
@@ -254,3 +273,24 @@ function updateToggleCounts() {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 };
+
+let detailsAreExpanded = false; /* defaults as hidden */
+
+document.getElementById('toggleDetailsBtn').addEventListener('click', () => {
+    const expandable = document.querySelectorAll('.expandable');
+    const allDropdownButtons = document.querySelectorAll('.dropdown-button');
+
+    detailsAreExpanded = !detailsAreExpanded; /* toggles the global state */
+
+    /* loops through each to change the display */
+    expandable.forEach(section => {
+        section.style.display = detailsAreExpanded ? 'block' : 'none';
+    });
+
+    allDropdownButtons.forEach(btn => {
+        btn.textContent = detailsAreExpanded ? '▲ Hide Details' : '▼ Show Keywords & Abstract';
+    })
+
+    /* updates the label of the button */
+    document.getElementById('toggleDetailsBtn').textContent = detailsAreExpanded ? '▲ Hide Details' : '▼ Show Details';
+});
