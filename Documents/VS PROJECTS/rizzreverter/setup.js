@@ -1,3 +1,16 @@
+/* ON LOAD */
+window.addEventListener('DOMContentLoaded', () => {
+    Object.keys(inclusionCriteria).forEach(section => {
+        createSectionUI('inclusion', section, 'inclusionSections');
+        updateKeywordList('inclusion', section);
+    });
+
+    Object.keys(exclusionCriteria).forEach(section => {
+        createSectionUI('exclusion', section, 'exclusionSections');
+        updateKeywordList('exclusion', section);
+    });
+})
+
 /* ADD TAGS */
 let tags = JSON.parse(localStorage.getItem('globalTags')) || [];
 
@@ -37,27 +50,66 @@ document.getElementById('addTagBtn').addEventListener('click', () => {
 
 updateTagListUI();
 
-/* ADD INCLUSION CRITERIA */
-let includedTerms = JSON.parse(localStorage.getItem('globalInclusion')) || [];
+/* ADD INCLUSION/EXCLUSION CRITERIA */
+let inclusionCriteria = JSON.parse(localStorage.getItem('inclusionCriteria')) || {};
+let exclusionCriteria = JSON.parse(localStorage.getItem('exclusionCriteria')) || {};
 
-function updateIncludedList() {
-    const list_included = document.getElementById('includedList');
-    list_included.innerHTML = '';
+function createSectionUI(type, sectionName, containerId) {
+    const container = document.getElementById(containerId);
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'criteria-section';
+    sectionDiv.innerHTML = `
+        <h5>${sectionName}</h5>
+        <input type="text" id="${type}-${sectionName}-input" placeholder="Enter inclusion term..">
+        <button onclick="addKeyword('${type}', '${sectionName}')">Add Keyword</button>
+        <ul id="${type}-${sectionName}-list"></ul>
+    `;
+    container.appendChild(sectionDiv);
+}
 
-    includedTerms.forEach((includedTerm, index) => {
-        const li = document.createElement('li');
-        li.textContent = includedTerm;
-
-        list_included.appendChild(li);
-    });
-};
-
-document.getElementById('addIncludedBtn').addEventListener('click', () => {
-    const newInclusion = document.getElementById('newIncludedInput').value.trim();
-    if (newInclusion && !includedTerms.includes(newInclusion)) {
-        includedTerms.push(newInclusion);
-        localStorage.setItem('globalInclusion', JSON.stringify(includedTerms));
-        updateIncludedList();
+function addInclusionSection() {
+    const sectionName = document.getElementById('newInclusionSection').value.trim();
+    if (sectionName && !inclusionCriteria[sectionName] && !exclusionCriteria[sectionName]) {
+        inclusionCriteria[sectionName] = [];
+        localStorage.setItem('inclusionCriteria', JSON.stringify(inclusionCriteria));
+        createSectionUI('inclusion', sectionName, 'inclusionSections');
+        document.getElementById('newInclusionSection').value = '';
     }
-    document.getElementById('newIncludedInput').value = '';
-})
+}
+
+function addExclusionSection() {
+    const sectionName = document.getElementById('newExclusionSection').value.trim();
+    if (sectionName && !exclusionCriteria[sectionName] && !inclusionCriteria[sectionName]) {
+        exclusionCriteria[sectionName] = [];
+        localStorage.setItem('exclusionCriteria', JSON.stringify(exclusionCriteria));
+        createSectionUI('exclusion', sectionName, 'exclusionSections');
+        document.getElementById('newExclusionSection').value = '';
+    }
+}
+
+// Add keywords to the inclusion/exclusion
+function addKeyword(type, section) {
+    const input = document.getElementById(`${type}-${section}-input`);
+    const value = input.value.trim();
+    if (!value) return;
+
+    const criteria = type === 'inclusion' ? inclusionCriteria : exclusionCriteria;
+    if (!criteria[section]) criteria[section] = [];
+    if (!criteria[section].includes(value)) {
+        criteria[section].push(value);
+        localStorage.setItem(`${type}Criteria`, JSON.stringify(criteria));
+        updateKeywordList(type, section);
+    }
+    input.value = '';
+}
+
+function updateKeywordList(type, section) {
+    const criteria = type === 'inclusion' ? inclusionCriteria : exclusionCriteria;
+    const list = document.getElementById(`${type}-${section}-list`);
+    list.innerHTML = '';
+    criteria[section].forEach((term, i) => {
+        const li = document.createElement('li');
+        li.textContent = term;
+        list.appendChild(li);
+    });
+}

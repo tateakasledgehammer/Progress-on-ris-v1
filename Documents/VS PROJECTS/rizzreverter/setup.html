@@ -47,41 +47,16 @@
             <h3>Set Inclusion & Exclusion Criteria</h3>
             <div class="inclusion-container">
                 <h4>Inclusion Criteria</h4>
-                    <p>Population</p>
-                        <input type="text" id="newIncludedInput" placeholder="Enter inclusion term..">
-                        <button id="addIncludedBtn">Add Keyword</button>
-                        <ul id="includedList"></ul>
-                    <p>Intervention</p>
-                        <input type="text" id="newIncludedInput" placeholder="Enter inclusion term..">
-                        <button id="addIncludedBtn">Add Keyword</button>
-                        <ul id="includedList"></ul>
-                    <p>Comparator</p>
-                        <input type="text" id="newIncludedInput" placeholder="Enter inclusion term..">
-                        <button id="addIncludedBtn">Add Keyword</button>
-                        <ul id="includedList"></ul>
-                    <p>Outcome</p>
-                        <input type="text" id="newIncludedInput" placeholder="Enter inclusion term..">
-                        <button id="addIncludedBtn">Add Keyword</button>
-                        <ul id="includedList"></ul>
-            </div>
+                <input type="text" id="newInclusionSection" placeholder="New Section (i.e. Population, Intervention...)">
+                <button onclick="addInclusionSection()">Add Section</button>
+                <div id="inclusionSections"></div>
+                
             <div class="exclusion-container">
                 <h4>Exclusion Criteria</h4>
-                    <p>Population</p>
-                        <input type="text" id="newExcludedInput" placeholder="Enter exclusion term..">
-                        <button id="addExcludedBtn">Add Keyword</button>
-                        <ul id="excludedList"></ul>
-                    <p>Intervention</p>
-                        <input type="text" id="newExcludedInput" placeholder="Enter exclusion term..">
-                        <button id="addExcludedBtn">Add Keyword</button>
-                        <ul id="excludedList"></ul>
-                    <p>Comparator</p>
-                        <input type="text" id="newExcludedInput" placeholder="Enter inclusion term..">
-                        <button id="addExcludedBtn">Add Keyword</button>
-                        <ul id="excludedList"></ul>
-                    <p>Outcome</p>
-                        <input type="text" id="newExcludedInput" placeholder="Enter inclusion term..">
-                        <button id="addExcludedBtn">Add Keyword</button>
-                        <ul id="excludedList"></ul>
+                <input type="text" id="newExclusionSection" placeholder="New Section (i.e. Population, Intervention...)">
+                <button onclick="addExclusionSection()">Add Section</button>
+                <div id="exclusionSections"></div>
+                
             </div>
         </div>     
     </div>

@@ -104,16 +104,16 @@ body {
     border-bottom: 1px solid black;
 }
 
-.tag-container,
-.inclusion-container,
-.exclusion-container {
+.tag-container {
+    padding: 20px;
+}
+
+.set-criteria div {
     padding: 10px 0 40px 10px;
 }
 
 /* SCREENING.HTML */
-
 /* TOGGLE */
-
 .toggle-container {
     width: 100%;
     display: flex;
@@ -181,6 +181,7 @@ body {
 }
 
 /* Other sorting functions */
+
 
 /* STUDY CARD */
 .study-card {
@@ -267,6 +268,16 @@ body {
     margin-top: 5px;
     box-sizing: border-box;
     font-size: 12px;
+}
+
+/* HIGHLIGHTING KEY WORDS */
+.highlight-inclusion {
+    background-color: #c8f7c5;;
+    border-radius: 5px;
+}
+.highlight-exclusion {
+    background-color: #f7c5c5;;
+    border-radius: 5px;
 }
 
 /* SETUP.HTML */

@@ -119,7 +119,7 @@ function renderResults(records) {
 
         // define the HTML block for this entry
         card.innerHTML = `
-            <h4>${title}</h4>
+            <h4><span class="highlightable">${title}</span></h4>
             <div class="sub-information">
             <p><strong>Study Index: </strong>${index}</p>
             <p class="authors"><strong>Authors: </strong>${authors}</p>
@@ -138,8 +138,8 @@ function renderResults(records) {
         expandable.classList.add('expandable');
         expandable.style.display = 'none';
         expandable.innerHTML = `
-            <p class="keywords"><strong>Keywords: </strong>${keywords}</p>
-            <p class="abstract"><strong>Abstract: </strong>${abstract}</p>
+            <p class="keywords"><strong>Keywords: </strong><span class="highlightable">${keywords}</span></p>
+            <p class="abstract"><strong>Abstract: </strong><span class="highlightable">${abstract}</span></p>
         `;
 
         const dropdownButton = document.createElement('button');
@@ -293,4 +293,35 @@ document.getElementById('toggleDetailsBtn').addEventListener('click', () => {
 
     /* updates the label of the button */
     document.getElementById('toggleDetailsBtn').textContent = detailsAreExpanded ? '▲ Hide Details' : '▼ Show Details';
+});
+
+// HIGHLIGHTING KEY WORDS
+
+function escapeRegex(term) {
+    return term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+function highlightKeywords() {
+    const inclusionCriteria = JSON.parse(localStorage.getItem('inclusionCriteria')) || {};
+    const exclusionCriteria = JSON.parse(localStorage.getItem('exclusionCriteria')) || {};    
+
+    const textBlocks = document.querySelectorAll('.highlightable');
+
+    textBlocks.forEach(block => {
+        let text = block.textContent;
+
+        // start clean each time
+        block.innerHTML = text;
+
+        // highlight inclusion
+        Object.values(inclusionCriteria).flat().forEach(term => {
+            const regex = new RegExp(`\\b(${escapeRegex(term)})\\b`, 'gi');
+            block.innerHTML = block.innerHTML(regex, `<span class="highlight-exclusion>$1</span>`);
+        });
+    });
+}
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    highlightKeywords();
 });
