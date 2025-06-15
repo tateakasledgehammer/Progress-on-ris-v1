@@ -180,8 +180,17 @@ body {
     border-radius: 5px;
 }
 
-/* Other sorting functions */
-
+@media (max-width: 799px) {
+    .sort-container,
+    .per-page-container {
+        display: none;
+    }
+}
+@media (max-width: 477px) {
+    #toggleDetailsBtn {
+        display: none;
+    }
+}
 
 /* STUDY CARD */
 .study-card {
@@ -306,7 +315,7 @@ body {
 }
 
 .criteria-section li {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .set-criteria {

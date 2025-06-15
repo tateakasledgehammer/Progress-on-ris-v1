@@ -136,14 +136,14 @@ function renderResults(records) {
 
         const expandable = document.createElement('div');
         expandable.classList.add('expandable');
-        expandable.style.display = 'none';
+        expandable.style.display = 'block';
         expandable.innerHTML = `
             <p class="keywords"><strong>Keywords: </strong><span class="highlightable">${keywords}</span></p>
             <p class="abstract"><strong>Abstract: </strong><span class="highlightable">${abstract}</span></p>
         `;
 
         const dropdownButton = document.createElement('button');
-        dropdownButton.textContent = '▼ Show Keywords & Abstract';
+        dropdownButton.textContent = '▲ Hide Details';
         dropdownButton.classList.add('dropdown-button');
 
         dropdownButton.addEventListener('click', () => {
@@ -159,22 +159,26 @@ function renderResults(records) {
         actions.classList.add('actions');
 
         // Accept button
-        const acceptBtn = document.createElement('button');
-        acceptBtn.textContent = 'ACCEPT';
-        acceptBtn.classList.add('accept-btn');
-        acceptBtn.onclick = () => updateStatus(index, 'accepted');
-                // when there is a click:
-                // runs updateStatus function
-                // sets status as 'accepted' for the index of the study
-        actions.appendChild(acceptBtn);
-                // adds acceptBtn to the actions div (made in the bit above this)
+        if (entry.status !== 'accepted') {
+            const acceptBtn = document.createElement('button');
+            acceptBtn.textContent = 'ACCEPT';
+            acceptBtn.classList.add('accept-btn');
+            acceptBtn.onclick = () => updateStatus(index, 'accepted');
+                    // when there is a click:
+                    // runs updateStatus function
+                    // sets status as 'accepted' for the index of the study
+            actions.appendChild(acceptBtn);
+                    // adds acceptBtn to the actions div (made in the bit above this)
+        }
 
         // Reject button
-        const rejectBtn = document.createElement('button');
-        rejectBtn.textContent = 'REJECT';
-        rejectBtn.classList.add('reject-btn');
-        rejectBtn.onclick = () => updateStatus(index, 'rejected');
-        actions.appendChild(rejectBtn);
+        if (entry.status !== 'rejected') {
+            const rejectBtn = document.createElement('button');
+            rejectBtn.textContent = 'REJECT';
+            rejectBtn.classList.add('reject-btn');
+            rejectBtn.onclick = () => updateStatus(index, 'rejected');
+            actions.appendChild(rejectBtn);
+        }
 
         // Revert button
         if (entry.status !== 'unscreened') { // only appears once something has been decided
@@ -329,7 +333,6 @@ function highlightKeywords() {
         })
     });
 }
-
 
 window.addEventListener('DOMContentLoaded', () => {
     highlightKeywords();

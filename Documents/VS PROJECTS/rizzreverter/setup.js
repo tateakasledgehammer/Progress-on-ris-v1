@@ -62,14 +62,14 @@ function createSectionUI(type, sectionName, containerId) {
         <h5>${sectionName}
             <button class="remove-section-btn" title="Remove section">X</button>
         </h5>
-        <input type="text" id="${type}-${sectionName}-input" placeholder="Enter inclusion term..">
+        <input type="text" id="${type}-${sectionName}-input" placeholder="Enter keyword...">
         <button onclick="addKeyword('${type}', '${sectionName}')">Add Keyword</button>
         <ul id="${type}-${sectionName}-list"></ul>
     `;
 
     // remove button handler
     sectionDiv.querySelector('.remove-section-btn').addEventListener('click', () => {
-        const criteria = type = 'inclusion' ? inclusionCriteria : exclusionCriteria;
+        const criteria = type === 'inclusion' ? inclusionCriteria : exclusionCriteria;
         delete criteria[sectionName];
         localStorage.setItem(
             type === 'inclusion' ? 'inclusionCriteria' : 'exclusionCriteria',
@@ -81,8 +81,27 @@ function createSectionUI(type, sectionName, containerId) {
     container.appendChild(sectionDiv);
 }
 
+function titleCase(str) {
+    return str
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
+
 function addInclusionSection() {
-    const sectionName = document.getElementById('newInclusionSection').value.trim();
+    let sectionName = document.getElementById('newInclusionSection').value.trim();
+    sectionName = titleCase(sectionName);
+
+    if (!sectionName) {
+        alert("Section name cannot be empty.");
+        return;
+    }
+    if (inclusionCriteria[sectionName]) {
+        alert("This criteria already exists.");
+        return;
+    }
+
     if (sectionName && !inclusionCriteria[sectionName]) {
         inclusionCriteria[sectionName] = [];
         localStorage.setItem('inclusionCriteria', JSON.stringify(inclusionCriteria));
@@ -92,7 +111,18 @@ function addInclusionSection() {
 }
 
 function addExclusionSection() {
-    const sectionName = document.getElementById('newExclusionSection').value.trim();
+    let sectionName = document.getElementById('newExclusionSection').value.trim();
+    sectionName = titleCase(sectionName);
+
+    if (!sectionName) {
+        alert("Section name cannot be empty.");
+        return;
+    }
+    if (exclusionCriteria[sectionName]) {
+        alert("This criteria already exists.");
+        return;
+    }
+
     if (sectionName && !exclusionCriteria[sectionName]) {
         exclusionCriteria[sectionName] = [];
         localStorage.setItem('exclusionCriteria', JSON.stringify(exclusionCriteria));
@@ -105,8 +135,7 @@ function addExclusionSection() {
 function addKeyword(type, section) {
     const input = document.getElementById(`${type}-${section}-input`);
     const value = input.value.trim();
-    if (!value) return;
-
+    
     const criteria = type === 'inclusion' ? inclusionCriteria : exclusionCriteria;
     if (!criteria[section]) criteria[section] = [];
     if (!criteria[section].includes(value)) {
@@ -123,11 +152,13 @@ function updateKeywordList(type, section) {
     list.innerHTML = '';
     criteria[section].forEach((term, i) => {
         const li = document.createElement('li');
+        term = titleCase(term);
         li.textContent = term;
 
         // remove button
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'X';
+        removeBtn.title="Remove keyword"
         removeBtn.classList.add('remove-keyword-btn');
         removeBtn.style.marginLeft = '8px';
         removeBtn.onclick = () => {
