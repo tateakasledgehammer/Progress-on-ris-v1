@@ -225,7 +225,11 @@ function renderResults(records) {
         card.appendChild(actions);
         // insert constructed HTML card into the output container
         outputDiv.appendChild(card);
-})};
+    });
+
+    // highlight terms after all cards are added
+    highlightKeywords();
+};
 
 // Update status function
 function updateStatus(index, newStatus) {
@@ -316,8 +320,13 @@ function highlightKeywords() {
         // highlight inclusion
         Object.values(inclusionCriteria).flat().forEach(term => {
             const regex = new RegExp(`\\b(${escapeRegex(term)})\\b`, 'gi');
-            block.innerHTML = block.innerHTML(regex, `<span class="highlight-exclusion>$1</span>`);
+            block.innerHTML = block.innerHTML.replace(regex, `<span class="highlight-inclusion">$1</span>`);
         });
+
+        Object.values(exclusionCriteria).flat().forEach(term => {
+            const regex = new RegExp(`\\b(${escapeRegex(term)})\\b`, 'gi');
+            block.innerHTML = block.innerHTML.replace(regex, `<span class="highlight-exclusion">$1</span>`);
+        })
     });
 }
 

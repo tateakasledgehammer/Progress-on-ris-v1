@@ -59,17 +59,31 @@ function createSectionUI(type, sectionName, containerId) {
     const sectionDiv = document.createElement('div');
     sectionDiv.className = 'criteria-section';
     sectionDiv.innerHTML = `
-        <h5>${sectionName}</h5>
+        <h5>${sectionName}
+            <button class="remove-section-btn" title="Remove section">X</button>
+        </h5>
         <input type="text" id="${type}-${sectionName}-input" placeholder="Enter inclusion term..">
         <button onclick="addKeyword('${type}', '${sectionName}')">Add Keyword</button>
         <ul id="${type}-${sectionName}-list"></ul>
     `;
+
+    // remove button handler
+    sectionDiv.querySelector('.remove-section-btn').addEventListener('click', () => {
+        const criteria = type = 'inclusion' ? inclusionCriteria : exclusionCriteria;
+        delete criteria[sectionName];
+        localStorage.setItem(
+            type === 'inclusion' ? 'inclusionCriteria' : 'exclusionCriteria',
+            JSON.stringify(criteria)
+        );
+        sectionDiv.remove();
+    })
+
     container.appendChild(sectionDiv);
 }
 
 function addInclusionSection() {
     const sectionName = document.getElementById('newInclusionSection').value.trim();
-    if (sectionName && !inclusionCriteria[sectionName] && !exclusionCriteria[sectionName]) {
+    if (sectionName && !inclusionCriteria[sectionName]) {
         inclusionCriteria[sectionName] = [];
         localStorage.setItem('inclusionCriteria', JSON.stringify(inclusionCriteria));
         createSectionUI('inclusion', sectionName, 'inclusionSections');
@@ -79,7 +93,7 @@ function addInclusionSection() {
 
 function addExclusionSection() {
     const sectionName = document.getElementById('newExclusionSection').value.trim();
-    if (sectionName && !exclusionCriteria[sectionName] && !inclusionCriteria[sectionName]) {
+    if (sectionName && !exclusionCriteria[sectionName]) {
         exclusionCriteria[sectionName] = [];
         localStorage.setItem('exclusionCriteria', JSON.stringify(exclusionCriteria));
         createSectionUI('exclusion', sectionName, 'exclusionSections');
@@ -110,6 +124,19 @@ function updateKeywordList(type, section) {
     criteria[section].forEach((term, i) => {
         const li = document.createElement('li');
         li.textContent = term;
+
+        // remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'X';
+        removeBtn.classList.add('remove-keyword-btn');
+        removeBtn.style.marginLeft = '8px';
+        removeBtn.onclick = () => {
+            criteria[section].splice(i, 1);
+            localStorage.setItem(type === 'inclusion' ? 'inclusionCriteria' : 'exclusionCriteria', JSON.stringify(criteria));
+            updateKeywordList(type, section);
+        };
+        
         list.appendChild(li);
+        li.appendChild(removeBtn);
     });
-}
+};

@@ -282,7 +282,9 @@ body {
 
 /* SETUP.HTML */
 /* Remove button */
-.remove-tag-btn {
+.remove-tag-btn,
+.remove-keyword-btn,
+.remove-section-btn {
     background-color: transparent;
     border: none;
     color: #e74c3c;
@@ -291,7 +293,36 @@ body {
     padding: 4px 8px;
 }
 
-.remove-tag-btn:hover {
+.remove-tag-btn:hover,
+.remove-keyword-btn:hover,
+.remove-section-btn:hover {
     cursor: pointer;
     background-color: #f0f0f0;
+}
+
+#newExclusionSection,
+#newInclusionSection {
+    width: 300px;
+}
+
+.criteria-section li {
+    font-size: 12px;
+}
+
+.set-criteria {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.inclusion-container, .exclusion-container {
+    flex: 1;
+    min-width: 300px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 0 20px;
+    border-radius: 6px;
+    background-color: #f9f9f9;
 }
