@@ -1,17 +1,24 @@
+// makes sure all the existing stuff is there and if empty, then starts empty
+let inclusionCriteria = JSON.parse(localStorage.getItem('inclusionCriteria')) || {};
+let exclusionCriteria = JSON.parse(localStorage.getItem('exclusionCriteria')) || {};
+
+let inclusionOrder = JSON.parse(localStorage.getItem('inclusionOrder')) || Object.keys(inclusionCriteria);
+let exclusionOrder = JSON.parse(localStorage.getItem('exclusionOrder')) || Object.keys(exclusionCriteria);
+
 /* ON LOAD */
 window.addEventListener('DOMContentLoaded', () => {
     // loops through each section stored in inclusion (i.e. Population, Intervention) and makes sure there are UI elements for each, and that all they keywords show up
-    Object.keys(inclusionCriteria).forEach(section => {
+    inclusionOrder.forEach(section => {
         createSectionUI('inclusion', section, 'inclusionSections');
         updateKeywordList('inclusion', section);
     });
 
     // same but for exclusion
-    Object.keys(exclusionCriteria).forEach(section => {
+    exclusionOrder.forEach(section => {
         createSectionUI('exclusion', section, 'exclusionSections');
         updateKeywordList('exclusion', section);
     });
-})
+});
 
 /* ADD TAGS */
 // loads previously saved tags or sets it as empty if need be
@@ -69,10 +76,6 @@ document.getElementById('newTagInput').addEventListener('keydown', (e) => {
 updateTagListUI(); // double checks everything is showing correctly
 
 /* ADD INCLUSION/EXCLUSION CRITERIA */
-// makes sure all the existing stuff is there and if empty, then starts empty
-let inclusionCriteria = JSON.parse(localStorage.getItem('inclusionCriteria')) || {};
-let exclusionCriteria = JSON.parse(localStorage.getItem('exclusionCriteria')) || {};
-
 // function to set up criteria sections (i.e. population, intervention)
 function createSectionUI(type, sectionName, containerId) {
     // sets up where to insert the info
@@ -84,6 +87,8 @@ function createSectionUI(type, sectionName, containerId) {
     sectionDiv.innerHTML = `
         <h5>${sectionName}
             <button class="remove-section-btn" title="Remove section">X</button>
+            <button class="move-up-btn" title="Move section up">^</button>
+            <button class="move-down-btn" title="Move section down">v</button>
         </h5>
         <input type="text" id="${type}-${sectionName}-input" placeholder="Enter keyword...">
         <button onclick="addKeyword('${type}', '${sectionName}')">Add Keyword</button>
@@ -102,13 +107,48 @@ function createSectionUI(type, sectionName, containerId) {
     sectionDiv.querySelector('.remove-section-btn').addEventListener('click', () => {
         const criteria = type === 'inclusion' ? inclusionCriteria : exclusionCriteria;
         delete criteria[sectionName]; // removes from criteria object (inclusionCriteria or exclusionCriteria)
-        localStorage.setItem( // removes from localStorage
-            type === 'inclusion' ? 'inclusionCriteria' : 'exclusionCriteria',
-            JSON.stringify(criteria)
-        );
+        if (type === 'inclusion') {
+            inclusionOrder = inclusionOrder.filter(name => name !== sectionName);
+            localStorage.setItem('inclusionOrder', JSON.stringify(inclusionOrder));
+        } else {
+            exclusionOrder = exclusionOrder.filter(name => name !== sectionName);
+            localStorage.setItem('exclusionOrder', JSON.stringify(exclusionOrder));
+        }
         sectionDiv.remove(); // removes the div from showing on the site
     })
 
+    // move up button
+    sectionDiv.querySelector('.move-up-btn').addEventListener('click', () => {
+        const order = type === 'inclusion' ? inclusionOrder : exclusionOrder;
+        const index = order.indexOf(sectionName);
+        if (index > 0) {
+            // swap the order
+            [order[index - 1], order[index]] = [order[index], order[index - 1]];
+            
+            // save update to local storage
+            localStorage.setItem(type === 'inclusion' ? 'inclusionOrder' : 'exclusionOrder', JSON.stringify(order));
+
+            // re-render the sections in the new order
+            reloadCriteriaSections(type);
+        }
+    });
+
+    // move down button
+    sectionDiv.querySelector('.move-down-btn').addEventListener('click', () => {
+        const order = type === 'inclusion' ? inclusionOrder : exclusionOrder;
+        const index = order.indexOf(sectionName);
+        if (index < order.length - 1) {
+            // swap the order
+            [order[index + 1], order[index]] = [order[index], order[index + 1]];
+            
+            // save update
+            localStorage.setItem(type === 'inclusion' ? 'inclusionOrder' : 'exclusionOrder', JSON.stringify(order));
+
+            // re-render the sections in the new order
+            reloadCriteriaSections(type);
+        }
+    });
+    
     // adds the div that was just formatted to the 'container'
     container.appendChild(sectionDiv);
 }
@@ -165,8 +205,7 @@ function addExclusionSection() {
         createSectionUI('exclusion', sectionName, 'exclusionSections');
         document.getElementById('newExclusionSection').value = '';
     }
-}
-
+};
 
 // making enter work
 document.getElementById('newInclusionSection').addEventListener('keydown', (e) => {
@@ -190,7 +229,10 @@ function addKeyword(type, section) {
     if (!criteria[section]) criteria[section] = [];
     if (!criteria[section].includes(value)) {
         criteria[section].push(value);
-        localStorage.setItem(`${type}Criteria`, JSON.stringify(criteria));
+        localStorage.setItem(
+            type === 'inclusion' ? 'inclusionCriteria' : 'exclusionCriteria',
+            JSON.stringify(criteria)
+        );
         updateKeywordList(type, section);
     }
     input.value = '';
@@ -222,3 +264,31 @@ function updateKeywordList(type, section) {
         li.appendChild(removeBtn);
     });
 };
+
+// reload criteria sections function
+function reloadCriteriaSections(type) {
+    const criteria = type === 'inclusion' ? inclusionCriteria : exclusionCriteria;
+    const containerId = type === 'inclusion' ? 'inclusionSections' : 'exclusionSections';
+    const container = document.getElementById(containerId);
+    const order = type === 'inclusion' ? inclusionOrder : exclusionOrder;
+
+    container.innerHTML = ''; // clears
+
+    order.forEach(section => {
+        if (criteria[section]) {
+            createSectionUI(type, section, containerId);
+            updateKeywordList(type, section);
+        }
+    });
+}
+
+// reset button for criteria
+document.getElementById('resetIncExcCriteria').addEventListener('click', () => {
+    if (confirm("Are you sure you want to clear your Inclusion & Exclusion criteria?")) {
+        localStorage.removeItem('inclusionCriteria');
+        localStorage.removeItem('exclusionCriteria');
+        localStorage.removeItem('inclusionOrder');
+        localStorage.removeItem('exclusionOrder');
+        location.reload();
+    }
+});
