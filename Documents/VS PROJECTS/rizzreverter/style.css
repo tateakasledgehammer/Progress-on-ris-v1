@@ -335,3 +335,14 @@ body {
     border-radius: 6px;
     background-color: #f9f9f9;
 }
+
+/* move up & down buttons */
+.move-up-btn,
+.move-down-btn {
+    background: transparent;
+    border: 1px solid black;
+}
+.move-up-btn:hover,
+.move-down-btn:hover {
+    background: #e0e0e0;
+}
