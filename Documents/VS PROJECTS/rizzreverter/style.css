@@ -182,7 +182,8 @@ body {
 
 @media (max-width: 799px) {
     .sort-container,
-    .per-page-container {
+    .per-page-container,
+    .filter-studies {
         display: none;
     }
 }
