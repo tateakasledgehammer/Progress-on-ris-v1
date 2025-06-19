@@ -288,6 +288,10 @@ body {
     background-color: #f7c5c5;;
     border-radius: 5px;
 }
+.highlight-filter {
+    background-color: #fff9c4;
+    border-radius: 5px;
+}
 
 /* SETUP.HTML */
 /* Remove button */

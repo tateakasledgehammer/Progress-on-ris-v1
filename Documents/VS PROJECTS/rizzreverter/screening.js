@@ -2,6 +2,7 @@ let studies = []; // global array
 let currentPage = 1;
 let itemsPerPage = 25;
 let sortBy = 'title_des';
+let currentFilter = localStorage.getItem('currentFilter') || '';
 
 window.onload = () => {
     const savedStudies = localStorage.getItem('studies');
@@ -71,17 +72,64 @@ function sortStudies(studies, sortBy) {
     });
 }
 
+// Setting a filter
+// making the button
+document.getElementById('addFilterBtn').addEventListener('click', () => {
+    const filterTerm = document.getElementById('newFilterInput').value.trim();
+    setFilter(filterTerm);
+});
+
+// letting it also be used by pressing 'enter'
+document.getElementById('newFilterInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        document.getElementById('addFilterBtn').click();
+    }
+});
+
+// the function itself
+function setFilter(filterTerm) {
+    currentFilter = filterTerm.toLowerCase();
+    localStorage.setItem('currentFilter', currentFilter);
+    currentPage = 1;
+    const activeStatus = localStorage.getItem('activeStatus') || 'unscreened';
+    renderFilteredStudies(activeStatus);
+    updateToggleCounts();
+    highlightFilter();
+}
+
+// clear filter button
+document.getElementById('clearFilterBtn').addEventListener('click', () => {
+    document.getElementById('newFilterInput').value = '';
+    currentFilter = '';
+    localStorage.removeItem('currentFilter');
+    currentPage = 1;
+    const activeStatus = localStorage.getItem('activeStatus') || 'unscreened';
+    renderFilteredStudies(activeStatus);
+    updateToggleCounts();
+})
+
 // Function to filter studies by status
 function renderFilteredStudies(status) {
     let filtered = studies
         .map((study, i) => ({ ...study, index: i }))
         .filter(study => study.status === status);
 
+    if (currentFilter) {
+        filtered = filtered.filter(study => {
+            const filter = currentFilter;
+            const title = (study.TI && study.TI[0] || '').toLowerCase();
+            const abstract = (study.AB && study.AB[0] || '').toLowerCase();
+            const keywords = (study.KW ? study.KW.join(' ') : '').toLowerCase();
+            return title.includes(filter) || abstract.includes(filter) || keywords.includes(filter);
+        });
+    }
+
     filtered = sortStudies(filtered, sortBy);
 
     const paginated = filtered.slice(0, currentPage * itemsPerPage);
     
     renderResults(paginated);
+    highlightFilter();
 
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     if (currentPage * itemsPerPage >= filtered.length) {
@@ -261,15 +309,27 @@ toggleButtons.forEach(btn => {
         localStorage.setItem('activeStatus', btn.dataset.status);
 
         renderFilteredStudies(btn.dataset.status); // shows the studies in that list with that status, as set previously
+        updateToggleCounts();
     })
 });
 
 // Update label counts
 function updateToggleCounts() {
+    function matchesFilter(study, filter) {
+        if (!filter) return true; // include all
+
+        const filterLower = filter.toLowerCase();
+        const title = (study.TI && study.TI[0] || '').toLowerCase();
+        const abstract = (study.AB && study.AB[0] || '').toLowerCase();
+        const keywords = (study.KW ? study.KW.join(' ') : '').toLowerCase();
+
+        return title.includes(filterLower) || abstract.includes(filterLower) || keywords.includes(filterLower);
+    }
+
     const counts = {
-        unscreened: studies.filter(s => s.status === 'unscreened').length,
-        accepted: studies.filter(s => s.status === 'accepted').length,
-        rejected: studies.filter(s => s.status === 'rejected').length,
+        unscreened: studies.filter(s => s.status === 'unscreened' && matchesFilter(s, currentFilter)).length,
+        accepted: studies.filter(s => s.status === 'accepted' && matchesFilter(s, currentFilter)).length,
+        rejected: studies.filter(s => s.status === 'rejected' && matchesFilter(s, currentFilter)).length
     };
 
     toggleButtons.forEach(btn => {
@@ -334,6 +394,37 @@ function highlightKeywords() {
     });
 }
 
+function highlightFilter() {
+    const currentFilter = localStorage.getItem('currentFilter') || '';
+    if (!currentFilter) return;
+
+    // avoids special characters
+    const escapedFilter = currentFilter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+    // create regex to match the filter term
+    const regex = new RegExp(`(${escapedFilter})`, 'gi');
+
+    const textBlocks = document.querySelectorAll('.highlightable');
+
+    textBlocks.forEach(block => {
+        const originalText = block.textContent;
+        // replace matching parts with highlighted span
+        const highlightedText = originalText.replace(regex,'<span class="highlight-filter">$1</span>');
+        block.innerHTML = highlightedText;
+    })
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     highlightKeywords();
 });
+
+/* add a note if there is a filter */
+if (currentFilter != '') {
+    const filterOutput = document.getElementById('filterNotice');
+
+    const filterStatement = document.createElement('div');
+        filterStatement.classList.add('filterNotice');
+        filterStatement.innerHTML = `<p>Current filter: ${currentFilter}</p>`
+
+    filterOutput.append(filterStatement);
+}

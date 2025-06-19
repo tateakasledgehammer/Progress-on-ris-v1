@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>RIS File Screener</title>
+    <title>Academic Study Screener</title>
 
     <!-- the font that I like -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,8 +58,15 @@
                     <option value="index_asc">Study Index</option>
                 </select>
             </div>
+            <div class="filter-studies">
+                <label for="filterStudies">Set A Filter</label>
+                <input type="text" id="newFilterInput" placeholder="Set a filter...">
+                <button id="addFilterBtn">Add Filter</button>
+                <button id="clearFilterBtn">Clear</button>
+            </div>
             <button id="toggleDetailsBtn">▲ Hide Details</button>
         </div>
+        <div id="filterNotice"></div>
         <div id="output"></div>
 
         <button id="loadMoreBtn">Load More</button>
