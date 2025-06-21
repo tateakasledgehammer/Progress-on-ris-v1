@@ -36,6 +36,7 @@ window.onload = () => {
         }
     });
 
+    filterNotice(currentFilter);
     renderFilteredStudies(savedStatus);
     updateToggleCounts();
 };
@@ -101,14 +102,13 @@ function setFilter(filterTerm) {
 // filter notice function
 function filterNotice(currentFilter) {
     const filterOutput = document.getElementById('filterNotice');
-    const filterStatement = document.createElement('div');
-    filterStatement.classList.add('filterNotice');
+    filterOutput.innerHTML = '';
 
     if (currentFilter) {
+        const filterStatement = document.createElement('div');
+        filterStatement.classList.add('filterNotice');
         filterStatement.innerHTML = `<p>Current filter: ${currentFilter}</p>`
         filterOutput.append(filterStatement);
-    } else {
-        filterOutput.remove(filterStatement);
     }
 }
 
