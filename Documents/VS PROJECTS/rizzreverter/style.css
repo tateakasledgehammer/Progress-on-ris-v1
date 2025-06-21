@@ -193,6 +193,18 @@ body {
     }
 }
 
+/* FILTER OUTPUT STATEMENT */
+.filterNotice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 0;
+    background-color: #fff9c4;
+}
+
 /* STUDY CARD */
 .study-card {
     margin: 20px auto;

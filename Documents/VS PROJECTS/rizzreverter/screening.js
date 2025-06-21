@@ -90,6 +90,7 @@ document.getElementById('newFilterInput').addEventListener('keydown', (e) => {
 function setFilter(filterTerm) {
     currentFilter = filterTerm.toLowerCase();
     localStorage.setItem('currentFilter', currentFilter);
+    filterNotice(currentFilter);
     currentPage = 1;
     const activeStatus = localStorage.getItem('activeStatus') || 'unscreened';
     renderFilteredStudies(activeStatus);
@@ -97,11 +98,27 @@ function setFilter(filterTerm) {
     highlightFilter();
 }
 
+// filter notice function
+function filterNotice(currentFilter) {
+    const filterOutput = document.getElementById('filterNotice');
+    const filterStatement = document.createElement('div');
+    filterStatement.classList.add('filterNotice');
+
+    if (currentFilter) {
+        filterStatement.innerHTML = `<p>Current filter: ${currentFilter}</p>`
+        filterOutput.append(filterStatement);
+    } else {
+        filterOutput.remove(filterStatement);
+    }
+}
+
 // clear filter button
 document.getElementById('clearFilterBtn').addEventListener('click', () => {
     document.getElementById('newFilterInput').value = '';
     currentFilter = '';
     localStorage.removeItem('currentFilter');
+    filterNotice(currentFilter);
+
     currentPage = 1;
     const activeStatus = localStorage.getItem('activeStatus') || 'unscreened';
     renderFilteredStudies(activeStatus);
@@ -342,7 +359,8 @@ function updateToggleCounts() {
     }
 };
 
-let detailsAreExpanded = false; /* defaults as hidden */
+// SHOW DETAILS FOR ALL BUTTON
+let detailsAreExpanded = true; /* defaults as hidden */
 
 document.getElementById('toggleDetailsBtn').addEventListener('click', () => {
     const expandable = document.querySelectorAll('.expandable');
@@ -417,14 +435,3 @@ function highlightFilter() {
 window.addEventListener('DOMContentLoaded', () => {
     highlightKeywords();
 });
-
-/* add a note if there is a filter */
-if (currentFilter != '') {
-    const filterOutput = document.getElementById('filterNotice');
-
-    const filterStatement = document.createElement('div');
-        filterStatement.classList.add('filterNotice');
-        filterStatement.innerHTML = `<p>Current filter: ${currentFilter}</p>`
-
-    filterOutput.append(filterStatement);
-}
