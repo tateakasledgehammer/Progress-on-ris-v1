@@ -150,7 +150,8 @@ body {
 .toggle-container button,
 .toggle-container label,
 .sort-container label,
-.sort-container select {
+.sort-container select,
+#toggleDetailsBtn {
     border: 2px solid transparent;
     background-color: transparent;
     padding: 10px 20px;
@@ -161,7 +162,8 @@ body {
 
 .toggle button:hover,
 #addFilterBtn:hover,
-#clearFilterBtn:hover {
+#clearFilterBtn:hover,
+#toggleDetailsBtn:hover {
     background-color: #f0f0f0;
 }
 

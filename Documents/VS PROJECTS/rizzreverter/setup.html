@@ -34,6 +34,77 @@
     <div class="body">
         <h1>Setup Your Review</h1>
 
+        <div class="generalSetup">
+            <div class="titleReview">
+                <h3>Review Name</h3>
+                <input type="text" placeholder="Provide the title of your review..." id="titleReview">
+            </div>
+
+            <div class="setStudyType">
+                <h3>Study Type</h3>
+                <select id="studyType">
+                    <option value="">Set study type</option>
+                    <option value="systematic-review">Systematic Review</option>
+                    <option value="scoping-review">Scoping Review</option>
+                    <option value="literature-review">Literature Review</option>
+                    <option value="rapid-review">Rapid Review</option>
+                    <option value="umbrella-review">Umbrella Review</option>
+                    <option value="other-review">Other</option>
+                </select>
+            </div>
+
+            <div class="setQuestionType">
+                <h3>Question Type</h3>
+                <select id="questionType">
+                    <option value="">Set question type</option>
+                    <option value="intervention">Intervention / Treatment</option>
+                    <option value="prevention">Prevention</option>
+                    <option value="etiology">Etiology</option>
+                    <option value="diagnosis">Diagnosis</option>
+                    <option value="prognosis">Prognosis</option>
+                    <option value="qualitative">Qualitative</option>
+                </select>
+            </div>
+
+            <div class="setResearchArea">
+                <h3>Area of Research</h3>
+                <select id="researchArea">
+                    <option value="">Set research area</option>
+                    <option>Arts & Humanities</option>
+                    <option>Agriculture, Veterinary & Food sciences</option>
+                    <option>Biological & Chemical Sciences</option>
+                    <option>Environmental Sciences</option>
+                    <option>Economic, Business & Social Sciences</option>
+                    <option>Education</option>
+                    <option>Engineering, Maths, Physics & Technology</option>
+                    <option>Medical & Health Science</option>
+                    <option>Psychology</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="reviewerSettings">
+            <h3>Reviewer Settings</h3>
+            <p>Reviewers required for title & abstract screening</p>
+            <select id="screenerNo">
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+            <p>Reviewers required for full text screening</p>
+            <select id="fullTextScreenerNo">
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+            <p>Reviewers required for data extraction</p>
+            <select id="dataExtractionNo">
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+            <button id="inviteReviewer">Invite Reviewer</button>
+            <div id="reviewerList"></div>
+        </div>
+
         <div class="define-tags">
             <h3>Define Tags</h3>
             <p>Tags will appear while you are screening and are helpful for you to place into groups to check later - whether it be to look into more, to inform another piece of research, or provide valuable background information.</p>
