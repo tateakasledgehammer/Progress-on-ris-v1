@@ -5,6 +5,8 @@ let exclusionCriteria = JSON.parse(localStorage.getItem('exclusionCriteria')) ||
 let inclusionOrder = JSON.parse(localStorage.getItem('inclusionOrder')) || Object.keys(inclusionCriteria);
 let exclusionOrder = JSON.parse(localStorage.getItem('exclusionOrder')) || Object.keys(exclusionCriteria);
 
+const titleInput = document.getElementById('titleReview');
+
 /* ON LOAD */
 window.addEventListener('DOMContentLoaded', () => {
     // loops through each section stored in inclusion (i.e. Population, Intervention) and makes sure there are UI elements for each, and that all they keywords show up
@@ -18,6 +20,28 @@ window.addEventListener('DOMContentLoaded', () => {
         createSectionUI('exclusion', section, 'exclusionSections');
         updateKeywordList('exclusion', section);
     });
+
+    // Drop downs working and saving
+    document.querySelectorAll('select[data-storage-key').forEach(dropdownOption => {
+        const key = dropdownOption.dataset.storageKey;
+        const savedValue = localStorage.getItem(key);
+        if (savedValue) dropdownOption.value = savedValue;
+
+        dropdownOption.addEventListener('change', () => {
+            localStorage.setItem(key, dropdownOption.value)
+        });
+    });
+
+    // Saving the title
+    const savedTitle = localStorage.getItem('reviewTitle');
+    if (savedTitle) {
+        titleInput.value = savedTitle;
+    }
+});
+
+// Saving the title
+titleInput.addEventListener('input', () => {
+    localStorage.setItem('reviewTitle', titleInput.value);
 });
 
 /* ADD TAGS */
@@ -74,6 +98,57 @@ document.getElementById('newTagInput').addEventListener('keydown', (e) => {
 });
 
 updateTagListUI(); // double checks everything is showing correctly
+
+
+/* ADD FULL TEXT EXCLUSION REASONS */
+let fullTextCriteria = JSON.parse(localStorage.getItem('globalExclusion')) || [];
+
+function updateFullTextExclusion() {
+    const list = document.getElementById('criteriaList');
+    list.innerHTML = '';
+
+    fullTextCriteria.forEach((criteria, index) => {
+        // creates a list item
+        const li = document.createElement('li');
+        li.textContent = criteria;
+
+        // remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'X';
+        removeBtn.classList.add('remove-criteria-btn');
+        removeBtn.style.marginLeft = '10px';
+
+        // when X is clicked, the tag is removed, saved to localStorage and then the list is updated
+        removeBtn.onclick = () => {
+            fullTextCriteria.splice(index, 1); // remove
+            localStorage.setItem('globalExclusion', JSON.stringify(fullTextCriteria)); // update the background list of globalTags which is responsible for keywords
+            updateFullTextExclusion(); // refreshes the list to not have it anymore
+        };
+        
+        li.appendChild(removeBtn);
+        list.appendChild(li);
+    });
+};
+
+document.getElementById('addFullTextCriteriaBtn').addEventListener('click', () => {
+    const newCriteria = document.getElementById('newFullTextExclusionInput').value.trim();
+
+    if (newCriteria && !fullTextCriteria.includes(newCriteria)) {
+        fullTextCriteria.push(newCriteria);
+        localStorage.setItem('globalExclusion', JSON.stringify(fullTextCriteria));
+        updateFullTextExclusion();
+    }
+
+    document.getElementById('newFullTextExclusionInput').value = '';
+})
+
+document.getElementById('newFullTextExclusionInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        document.getElementById('addFullTextCriteriaBtn').click();
+    }
+});
+
+updateFullTextExclusion(); 
 
 /* ADD INCLUSION/EXCLUSION CRITERIA */
 // function to set up criteria sections (i.e. population, intervention)

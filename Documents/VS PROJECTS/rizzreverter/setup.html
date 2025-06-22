@@ -42,7 +42,7 @@
 
             <div class="setStudyType">
                 <h3>Study Type</h3>
-                <select id="studyType">
+                <select id="studyType" data-storage-key="studyType">
                     <option value="">Set study type</option>
                     <option value="systematic-review">Systematic Review</option>
                     <option value="scoping-review">Scoping Review</option>
@@ -55,7 +55,7 @@
 
             <div class="setQuestionType">
                 <h3>Question Type</h3>
-                <select id="questionType">
+                <select id="questionType" data-storage-key="questionType">
                     <option value="">Set question type</option>
                     <option value="intervention">Intervention / Treatment</option>
                     <option value="prevention">Prevention</option>
@@ -68,7 +68,7 @@
 
             <div class="setResearchArea">
                 <h3>Area of Research</h3>
-                <select id="researchArea">
+                <select id="researchArea" data-storage-key="researchArea">
                     <option value="">Set research area</option>
                     <option>Arts & Humanities</option>
                     <option>Agriculture, Veterinary & Food sciences</option>
@@ -87,17 +87,17 @@
         <div class="reviewer-settings">
             <h3>Reviewer Settings</h3>
             <p>Reviewers required for title & abstract screening</p>
-            <select id="screenerNo">
+            <select id="screenerNo" data-storage-key="screenerNo">
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
             <p>Reviewers required for full text screening</p>
-            <select id="fullTextScreenerNo">
+            <select id="fullTextScreenerNo" data-storage-key="fullTextScreenerNo">
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
             <p>Reviewers required for data extraction</p>
-            <select id="dataExtractionNo">
+            <select id="dataExtractionNo" data-storage-key="dataExtractionNo">
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
@@ -139,9 +139,9 @@
         
         <div class="set-full-text-criteria">
             <h3>Set Full Text Exclusion Reasons</h3>
-            <input type="text" id="newFullTextExclusion" placeholder="New full text exclusion (i.e. incorrect setting)">
-            <button id="addFullTextCriteriaBtn" onclick="addFullTextExclusion()">Add Criteria</button>
-            <div id="fullTextExclusion"></div>
+            <input type="text" id="newFullTextExclusionInput" placeholder="New full text exclusion (i.e. incorrect setting)">
+            <button id="addFullTextCriteriaBtn">Add Criteria</button>
+            <ul id="criteriaList"></ul>
         </div>
     </div>
 

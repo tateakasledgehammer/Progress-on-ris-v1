@@ -33,11 +33,6 @@
     
     <div class="body">
         <div class="toggle-container">
-            <div class="toggle">
-                <button data-status="unscreened" class="active">Unscreened</button>
-                <button data-status="accepted">Accepted</button>
-                <button data-status="rejected">Rejected</button>
-            </div> 
             <div class="per-page-container">
                 <label for="itemsPerPage">Show per page:</label>
                 <select id="itemsPerPage">
@@ -64,8 +59,15 @@
                 <button id="addFilterBtn">Add Filter</button>
                 <button id="clearFilterBtn">Clear</button>
             </div>
-            <button id="toggleDetailsBtn">▲ Hide Details</button>
+            <button id="toggleDetailsBtn" class="">▲ Hide Details</button>
+            <button id="toggleHighlightableBtn">Toggle Highlights Off</button>
         </div>
+        <div class="toggle">
+            <button data-status="unscreened" class="active">Unscreened</button>
+            <button data-status="accepted">Accepted</button>
+            <button data-status="rejected">Rejected</button>
+        </div> 
+
         <div id="filterNotice"></div>
         <div id="output"></div>
 

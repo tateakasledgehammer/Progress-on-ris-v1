@@ -154,7 +154,8 @@ body {
     padding: 10px 20px 40px 20px;
 }
 
-#tagList {
+#tagList,
+#criteriaList {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -163,13 +164,14 @@ body {
     align-items: center;
 }
 
-#tagList li {
+#tagList li,
+#criteriaList li {
     margin-bottom: 8px;
     padding-left: 24px;
     background-color: #f0f0f0;
     border-radius: 5px;
     font-size: 14px;
-    width: 80%;
+    width: 100%;
 
 }
 
@@ -197,6 +199,10 @@ body {
     flex-wrap: wrap;
 }
 
+.toggle {
+    padding-bottom: 0;
+}
+
 .per-page-container,
 .sort-container,
 .filter-studies {
@@ -204,7 +210,8 @@ body {
 }
 
 .toggle-container button,
-.toggle-container select {
+.toggle-container select,
+.toggle button {
     cursor: pointer;
 }
 
@@ -212,7 +219,8 @@ body {
 .toggle-container label,
 .sort-container label,
 .sort-container select,
-#toggleDetailsBtn {
+#toggleDetailsBtn,
+.toggle button {
     border: 2px solid transparent;
     background-color: transparent;
     padding: 10px 20px;
@@ -223,14 +231,13 @@ body {
 
 .toggle button:hover,
 #addFilterBtn:hover,
-#clearFilterBtn:hover,
-#toggleDetailsBtn:hover {
+#clearFilterBtn:hover {
     background-color: #f0f0f0;
 }
 
 .toggle button.active {
     border-color: black;
-    background-color: #e0e0e0;
+    background-color: #f0f0f0;
 }
 
 .toggle-container select {
@@ -255,11 +262,21 @@ body {
     margin: 0 5px;
 }
 
+#toggleDetailsBtn,
+#toggleHighlightableBtn {
+    margin: 10px 5px;
+}
+#toggleDetailsBtn:hover,
+#toggleHighlightableBtn:hover {
+    background-color: #f0f0f0;
+}
+
 @media (max-width: 799px) {
     .sort-container,
     .per-page-container,
     .filter-studies,
-    #toggleDetailsBtn {
+    #toggleDetailsBtn,
+    #toggleHighlightableBtn {
         display: none;
     }
 }
@@ -381,11 +398,16 @@ body {
     border-radius: 5px;
 }
 
+.remove-highlight {
+    background-color: transparent !important;
+}
+
 /* SETUP.HTML */
 /* Remove button */
 .remove-tag-btn,
 .remove-keyword-btn,
-.remove-section-btn {
+.remove-section-btn,
+.remove-criteria-btn {
     background-color: transparent;
     border: none;
     color: #c00;
@@ -396,7 +418,8 @@ body {
 
 .remove-tag-btn:hover,
 .remove-keyword-btn:hover,
-.remove-section-btn:hover {
+.remove-section-btn:hover,
+.remove-criteria-btn:hover {
     cursor: pointer;
     background-color: #f0f0f0;
 }

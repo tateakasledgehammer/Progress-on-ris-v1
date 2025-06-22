@@ -382,7 +382,7 @@ document.getElementById('toggleDetailsBtn').addEventListener('click', () => {
 });
 
 // HIGHLIGHTING KEY WORDS
-
+// toggle highlightable
 function escapeRegex(term) {
     return term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
@@ -431,6 +431,20 @@ function highlightFilter() {
         block.innerHTML = highlightedText;
     })
 }
+
+let textIsHighlighted = true;
+
+document.getElementById('toggleHighlightableBtn').addEventListener('click', () => {
+    const highlightedElements = document.querySelectorAll('.highlight-inclusion, .highlight-exclusion');
+
+    highlightedElements.forEach(element => {
+        element.classList.toggle('remove-highlight');
+    });
+
+    textIsHighlighted = !textIsHighlighted;
+
+    document.getElementById('toggleHighlightableBtn').textContent = textIsHighlighted ? 'Toggle Highlights Off' : 'Toggle Highlights On';
+});
 
 window.addEventListener('DOMContentLoaded', () => {
     highlightKeywords();
