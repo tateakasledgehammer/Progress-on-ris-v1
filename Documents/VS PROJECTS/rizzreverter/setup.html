@@ -34,7 +34,7 @@
     <div class="body">
         <h1>Setup Your Review</h1>
 
-        <div class="generalSetup">
+        <div class="general-setup">
             <div class="titleReview">
                 <h3>Review Name</h3>
                 <input type="text" placeholder="Provide the title of your review..." id="titleReview">
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <div class="reviewerSettings">
+        <div class="reviewer-settings">
             <h3>Reviewer Settings</h3>
             <p>Reviewers required for title & abstract screening</p>
             <select id="screenerNo">
@@ -115,24 +115,34 @@
             </div>
         </div>
 
-        <h3>Set Inclusion & Exclusion Criteria</h3>
-        <button id="resetIncExcCriteria">Reset Your Criteria</button>
-        <p>The terms that you input below will show up highlighted in green (inclusion) or red (exclusion) to help guide your screening process (this can also be toggled off). You are able to add your own subheadings for maximum customisability.</p>
         <div class="set-criteria">
-            <div class="inclusion-container">
-                <h4>Inclusion Criteria</h4>
-                <input type="text" id="newInclusionSection" placeholder="New Section (i.e. Population, Intervention...)">
-                <button onclick="addInclusionSection()">Add Section</button>
-                <div id="inclusionSections"></div>
+            <h3>Set Inclusion & Exclusion Criteria</h3>
+            <button id="resetIncExcCriteria">Reset Your Criteria</button>
+            <p>The terms that you input below will show up highlighted in green (inclusion) or red (exclusion) to help guide your screening process (this can also be toggled off). You are able to add your own subheadings for maximum customisability.</p>
+        
+            <div class="set-criteria-containers">
+                <div class="inclusion-container">
+                    <h4>Inclusion Criteria</h4>
+                    <input type="text" id="newInclusionSection" placeholder="New Section (i.e. Population, Intervention...)">
+                    <button onclick="addInclusionSection()">Add Section</button>
+                    <div id="inclusionSections"></div>
+                </div>
+                    
+                <div class="exclusion-container">
+                    <h4>Exclusion Criteria</h4>
+                    <input type="text" id="newExclusionSection" placeholder="New Section (i.e. Population, Intervention...)">
+                    <button onclick="addExclusionSection()">Add Section</button>
+                    <div id="exclusionSections"></div>
+                </div>
             </div>
-                
-            <div class="exclusion-container">
-                <h4>Exclusion Criteria</h4>
-                <input type="text" id="newExclusionSection" placeholder="New Section (i.e. Population, Intervention...)">
-                <button onclick="addExclusionSection()">Add Section</button>
-                <div id="exclusionSections"></div>
-            </div>
-        </div>     
+        </div>    
+        
+        <div class="set-full-text-criteria">
+            <h3>Set Full Text Exclusion Reasons</h3>
+            <input type="text" id="newFullTextExclusion" placeholder="New full text exclusion (i.e. incorrect setting)">
+            <button id="addFullTextCriteriaBtn" onclick="addFullTextExclusion()">Add Criteria</button>
+            <div id="fullTextExclusion"></div>
+        </div>
     </div>
 
 

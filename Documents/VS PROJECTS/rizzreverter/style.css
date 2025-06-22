@@ -98,18 +98,79 @@ body {
 
 
 /* SETUP.HTML */
+.general-setup input,
+.general-setup select,
+.reviewer-settings select,
+.reviewer-settings option,
+.define-tags input,
+.set-full-text-criteria input {
+    width: 100%;
+    height: 40px;
+}
 
-.define-tags {
+.general-setup div {
+    padding: 10px 0;
+}
+
+.general-setup h3,
+.reviewer-settings h3,
+.define-tags h3,
+.set-full-text-criteria h3 {
+    padding-bottom: 2px;
+}
+
+.define-tags p {
+    padding-bottom: 10px;
+}
+
+#addTagBtn,
+#resetIncExcCriteria,
+#addFullTextCriteriaBtn {
+    margin: 10px 0;
+    width: 180px;
+    white-space: nowrap;
+}
+
+#inviteReviewer,
+#addTagBtn:hover,
+#resetIncExcCriteria:hover,
+.exclusion-container button:hover,
+.inclusion-container button:hover {
+    cursor: pointer;
+}
+
+.reviewer-settings select {
+    margin-bottom: 16px;
+    padding-left: 10px
+}
+
+.general-setup,
+.reviewer-settings,
+.define-tags,
+.set-criteria,
+.set-full-text-criteria {
     margin-bottom: 30px;
     border-bottom: 1px solid black;
+    padding: 10px 20px 40px 20px;
 }
 
-.tag-container {
-    padding: 20px;
+#tagList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.set-criteria div {
-    padding: 10px 0 40px 10px;
+#tagList li {
+    margin-bottom: 8px;
+    padding-left: 24px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 80%;
+
 }
 
 /* SCREENING.HTML */
@@ -327,7 +388,7 @@ body {
 .remove-section-btn {
     background-color: transparent;
     border: none;
-    color: #e74c3c;
+    color: #c00;
     font-size: 20px;
     font-weight: 600;
     padding: 4px 8px;
@@ -349,7 +410,7 @@ body {
     font-size: 14px;
 }
 
-.set-criteria {
+.set-criteria-containers {
     display: flex;
     justify-content: space-between;
     gap: 40px;
