@@ -402,6 +402,22 @@ body {
     background-color: transparent !important;
 }
 
+/* LOAD MORE BTN */
+#loadMoreBtn {
+    width: 40%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    display: block;
+    margin: 20px auto 200px;
+}
+
+#loadMoreBtn:hover {
+    border: 1px solid black;
+}
+
 /* SETUP.HTML */
 /* Remove button */
 .remove-tag-btn,

@@ -1,6 +1,6 @@
 let studies = []; // global array
 let currentPage = 1;
-let itemsPerPage = 25;
+itemsPerPage = parseInt(localStorage.getItem('itemsPerPage'), 10) || 25;
 let sortBy = 'title_des';
 let currentFilter = localStorage.getItem('currentFilter') || '';
 
@@ -12,11 +12,18 @@ window.onload = () => {
         studies = JSON.parse(savedStudies);
     }
 
+    document.getElementById('itemsPerPage').value = itemsPerPage;
+
     // dropdown handler
     document.getElementById('itemsPerPage').addEventListener('change', (e) => {
         itemsPerPage = parseInt(e.target.value, 10);
+        localStorage.setItem('itemsPerPage', itemsPerPage);
         currentPage = 1;
-        renderFilteredStudies(savedStatus);
+
+        const activeBtn = document.querySelector('.toggle button.active');
+        const activeStatus = activeBtn?.dataset.status || 'unscreened';
+
+        renderFilteredStudies(activeStatus);
     });
 
     // load more button handler
