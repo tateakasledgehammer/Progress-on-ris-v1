@@ -302,7 +302,7 @@ function addKeyword(type, section) {
     
     const criteria = type === 'inclusion' ? inclusionCriteria : exclusionCriteria;
     if (!criteria[section]) criteria[section] = [];
-    if (!criteria[section].includes(value)) {
+    if (!criteria[section].includes(value) && value !== '') {
         criteria[section].push(value);
         localStorage.setItem(
             type === 'inclusion' ? 'inclusionCriteria' : 'exclusionCriteria',
