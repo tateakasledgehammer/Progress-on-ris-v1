@@ -1,0 +1,73 @@
+/* All */
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* Navbar */
+#navbar {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#navbar a {
+    padding: 50px;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+}
+
+#navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Hero */
+.hero-light {
+    height: 220px;
+    margin: 140px 0;
+}
+
+#hero input {
+    width: 20%;
+}
+
+#hero a {
+    text-decoration: none;
+    color: green;
+}
+
+#hero h3 {
+    padding-top: 140px;
+}
+
+/* Concept */
+#display {
+    margin: 260px 0;
+}
+
+.coffpact-concept {
+    width: 100%;
+}
+
+/* footer */
+footer small {
+    font-size: 16px;
+    padding: 70px;
+}
+
+footer a {
+    font-size: 16px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    padding: 8px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    margin-bottom: 40px;
+}
